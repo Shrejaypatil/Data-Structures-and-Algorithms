@@ -11,8 +11,11 @@ Here’s a brief overview of what you’ll find:
 
 - **Number Systems:** Convert between various number formats.
 - **Patterns:** Generate common programming patterns.
-- **Sorting & Searching:** [Placeholder for future additions]
-- **Data Structures:** [Placeholder for future additions]
+- **Sorting & Searching:** popular algorithms
+- **Stack:** Overview on stack 
+- **Queue:** Overview on Queue
+- **Linked List:** Overview on Linked list its types
+- **Binary Tree:** Overview on Tree
 
 > 📈 **Note:** More topics and features are on the way, so stay tuned for updates!
 
