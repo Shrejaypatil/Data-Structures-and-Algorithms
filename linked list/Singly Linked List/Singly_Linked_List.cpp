@@ -1,37 +1,50 @@
 #include <iostream>
 using namespace std;
 
-// singly ll
-
 class Node
 {
 public:
     int data;
     Node *next;
 
-    // constructor
     Node(int d)
     {
-        this->data = d;
         this->next = NULL;
+        this->data = d;
     }
 
     // destructor
+
     ~Node()
     {
-        int value = this->data;
+        int popVal = this->data;
+
         if (this->next != NULL)
         {
-            delete next;
             this->next = NULL;
+            delete next;
         }
-        cout << "Node is deleted with data: " << value << endl;
+
+        cout << "The deleted data is: " << popVal << endl;
     }
 };
+
+/*
+Operations:
+
+1. insertAtHead
+2. insertAtTail
+3. insertAtPos
+4. deleteAtHead
+5. deleteAtTail // cant delete at tail as we may loose tail link
+6. deleteAtPos
+
+*/
 
 void insertAtHead(Node *&head, int d)
 {
     Node *temp = new Node(d);
+
     temp->next = head;
     head = temp;
 }
@@ -39,174 +52,174 @@ void insertAtHead(Node *&head, int d)
 void insertAtTail(Node *&tail, int d)
 {
     Node *temp = new Node(d);
+
     tail->next = temp;
+
     tail = temp;
 }
 
 void insertAtPos(Node *&head, Node *&tail, int pos, int d)
 {
-    Node *temp = head;
-
     if (pos == 1)
     {
         insertAtHead(head, d);
-        return;
-    }
-
-    int cnt = 1;
-
-    while (cnt < pos - 1)
-    {
-        temp = temp->next;
-        cnt++;
-    }
-
-    // insert at last
-    if (temp->next == NULL)
-    {
-        insertAtTail(tail, d);
-        return;
-    }
-
-    Node *nodeToInsert = new Node(d);
-    nodeToInsert->next = temp->next;
-    temp->next = nodeToInsert;
-}
-
-void printL(Node *&head)
-{
-    if (head == NULL)
-    {
-        cout << "List is empty " << endl;
-        return;
-    }
-    Node *temp = head;
-
-    while (temp != NULL)
-    {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-    cout << endl;
-}
-
-void deleteAtNode(Node *&head, int pos)
-{
-    if (pos == 1)
-    {
-        Node *temp = head;
-        head = head->next;
-        temp->next = NULL;
-        delete temp;
     }
     else
     {
         Node *curr = head;
-        Node *prev = NULL;
-        int cnt = 1;
+        Node *prev = head;
 
-        while (cnt < pos)
+        int cnt = 0;
+
+        while (cnt < pos - 1)
         {
             prev = curr;
             curr = curr->next;
             cnt++;
         }
 
+        if (curr->next == NULL)
+        {
+            insertAtTail(tail, d);
+        }
+
+        Node *nodeToInsert = new Node(d);
+
+        prev->next = nodeToInsert;
+        nodeToInsert->next = curr;
+    }
+}
+
+void deleteAtHead(Node *&head)
+{
+
+    // first check if single element in list
+    if (head->next == NULL)
+    {
+        delete head;
+    }
+    else
+    {
+        Node *temp = head;
+
+        head = head->next;
+
+        temp->next = NULL;
+
+        delete temp;
+    }
+}
+
+void deleteAtPos(Node *&head, Node *&tail, int pos)
+{
+    if (pos == 1)
+    {
+        deleteAtHead(head);
+    }
+    else
+    {
+        Node *curr = head;
+        Node *prev = head;
+
+        int cnt = 0;
+
+        while (cnt < pos - 1)
+        {
+            prev = curr;
+            curr = curr->next;
+            cnt++;
+        }
+
+        if (curr->next == NULL)
+        {
+            tail = prev;
+        }
+
         prev->next = curr->next;
         curr->next = NULL;
-
         delete curr;
     }
 }
 
-Node *reverseL(Node *head, Node *tail)
+void display(Node *head)
 {
-    if (head == NULL || head->next == NULL)
+    Node *temp = head;
+    while (temp)
     {
-        return head;
+        cout << temp->data << "->";
+        temp = temp->next;
     }
-
-    Node *curr = head;
-    Node *prev = NULL;
-    Node *forward = NULL;
-
-    while (curr != NULL)
-    {
-        forward = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = forward;
-    }
-
-    return prev;
-}
-
-void detectCycle(Node *head)
-{
-    Node *p1 = head;
-    Node *p2 = head;
-
-    while (p2->next != NULL && p2->next->next != NULL)
-    {
-        p1 = p1->next;
-        p2 = p2->next->next;
-        if (p1 == p2)
-        {
-            cout << "Cycle detected " << endl;
-            return;
-        }
-    }
-    cout << "Cycle not detected" << endl;
-}
-
-void cycle(Node *&head, Node *&tail)
-{
-    tail->next = head->next->next;
+    cout << "NULL";
+    cout << endl;
 }
 
 int main()
 {
-    Node *node1 = new Node(5);
+    Node *root = new Node(10);
 
-    Node *head = node1;
-    Node *tail = node1;
-    printL(head);
+    Node *head = root;
+
+    Node *tail = root;
 
     insertAtHead(head, 20);
-    printL(head);
 
-    insertAtTail(tail, 40);
-    printL(head);
+    display(head);
 
-    insertAtPos(head, tail, 4, 1);
-    printL(head);
+    insertAtTail(tail, 30);
 
-    insertAtPos(head, tail, 2, 1);
-    printL(head);
+    display(head);
 
-    insertAtTail(tail, 50);
-    printL(head);
+    insertAtPos(head, tail, 2, 100);
 
-    insertAtTail(tail, 100);
-    printL(head);
+    display(head);
 
-    insertAtTail(tail, 84);
-    printL(head);
+    insertAtTail(tail, 60);
 
-    insertAtTail(tail, -23);
-    printL(head);
+    display(head);
 
-    insertAtTail(tail, 123);
-    printL(head);
+    insertAtPos(head, tail, 3, 1101);
 
-    insertAtTail(tail, 1000);
-    printL(head);
+    display(head);
 
-    cycle(head, tail);
+    insertAtPos(head, tail, 5, 5001);
 
-    // mid(head);
+    display(head);
 
-    detectCycle(head);
+    insertAtHead(head, 70);
+
+    display(head);
+
+    deleteAtHead(head);
+
+    display(head);
+
+    deleteAtPos(head, tail, 3);
+
+    display(head);
+
+    deleteAtPos(head, tail, 6);
+
+    display(head);
+
+    insertAtTail(tail, 450);
+
+    display(head);
+
+    insertAtTail(tail, 80);
+
+    display(head);
+
+    deleteAtPos(head, tail, 7);
+
+    display(head);
+
+    insertAtTail(tail, 80);
+
+    display(head);
+
+    deleteAtPos(head, tail, 4);
+
+    display(head);
 
     return 0;
 }
