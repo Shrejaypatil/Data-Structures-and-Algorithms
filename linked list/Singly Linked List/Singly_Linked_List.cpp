@@ -38,6 +38,7 @@ Operations:
 4. deleteAtHead
 5. deleteAtTail // cant delete at tail as we may loose tail link
 6. deleteAtPos
+7. reverse_linked_list
 
 */
 
@@ -141,6 +142,31 @@ void deleteAtPos(Node *&head, Node *&tail, int pos)
     }
 }
 
+Node *reverse_linked_list(Node *&head, Node *&tail)
+{
+    if (head == NULL || head->next == NULL)
+    {
+        cout << "Already reversed as single element \n";
+        return head;
+    }
+    else
+    {
+        tail = head;
+        Node *prev = NULL;
+        Node *curr = head;
+        Node *forward = NULL;
+
+        while (curr)
+        {
+            forward = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = forward;
+        }
+        return prev;
+    }
+}
+
 void display(Node *head)
 {
     Node *temp = head;
@@ -189,35 +215,43 @@ int main()
 
     display(head);
 
-    deleteAtHead(head);
+    // deleteAtHead(head);
+
+    // display(head);
+
+    // deleteAtPos(head, tail, 3);
+
+    // display(head);
+
+    // deleteAtPos(head, tail, 6);
+
+    // display(head);
+
+    // insertAtTail(tail, 450);
+
+    // display(head);
+
+    // insertAtTail(tail, 80);
+
+    // display(head);
+
+    // deleteAtPos(head, tail, 7);
+
+    // display(head);
+
+    // insertAtTail(tail, 80);
+
+    // display(head);
+
+    // deleteAtPos(head, tail, 4);
+
+    // display(head);
+
+    head = reverse_linked_list(head, tail);
 
     display(head);
 
-    deleteAtPos(head, tail, 3);
-
-    display(head);
-
-    deleteAtPos(head, tail, 6);
-
-    display(head);
-
-    insertAtTail(tail, 450);
-
-    display(head);
-
-    insertAtTail(tail, 80);
-
-    display(head);
-
-    deleteAtPos(head, tail, 7);
-
-    display(head);
-
-    insertAtTail(tail, 80);
-
-    display(head);
-
-    deleteAtPos(head, tail, 4);
+    insertAtTail(tail, 2121);
 
     display(head);
 
