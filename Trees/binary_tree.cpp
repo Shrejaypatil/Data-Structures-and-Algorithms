@@ -116,7 +116,7 @@ void inorder(Node *root)
     }
 
     inorder(root->left);
-    cout << root->data;
+    cout << root->data << " ";
     inorder(root->right);
 }
 
@@ -127,7 +127,7 @@ void preorder(Node *root)
         return;
     }
 
-    cout << root->data;
+    cout << root->data << " ";
     inorder(root->left);
     inorder(root->right);
 }
@@ -141,7 +141,19 @@ void postorder(Node *root)
 
     inorder(root->left);
     inorder(root->right);
-    cout << root->data;
+    cout << root->data << " ";
+}
+
+int height(Node *root)
+{
+    if (root == NULL) // Corrected comparison
+    {
+        return 0;
+    }
+
+    int ans = max(height(root->left), height(root->right)) + 1;
+
+    return ans;
 }
 
 int main()
@@ -164,6 +176,11 @@ int main()
 
     cout << endl;
     postorder(root);
+
+    cout << endl;
+    int ans = height(root);
+
+    cout << "Height of tree : " << ans << endl;
 
     return 0;
 }
